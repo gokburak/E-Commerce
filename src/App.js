@@ -60,9 +60,6 @@ const App = () => {
                   handleUpdateCartQty={handleUpdateCartQty}
                   handleRemoveFromCart={handleRemoveFromCart}
                   handleEmptyCart={handleEmptyCart}
-                  
-                  
-                  
                   />
             </Route>
           </Switch>
