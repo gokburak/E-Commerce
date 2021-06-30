@@ -3,6 +3,7 @@ import Products from './components/Products/Products';
 import Navbar from './components/Navbar/Navbar';
 import { commerce } from './lib/commerce';
 import Cart from './components/Cart/Cart';
+import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
 
 
 const App = () => {
@@ -21,22 +22,52 @@ const App = () => {
         setCart(await commerce.cart.retrieve())
       }
          const handleAddToCart = async (productId,quantity)=>{
-           const item =await commerce.cart.add(productId,quantity);
+           const cart =await commerce.cart.add(productId,quantity);
 
-           setCart(item.cart);
+           setCart(cart);
          }
-    useEffect(() =>{
-      fetchProducts()
-    },[]);
+         const handleUpdateCartQty =async (productId, quantity)=>{
+           const cart =await commerce.cart.update (productId,{quantity});
+           setCart(cart);
+         }
 
-    console.log(products);
+         const handleRemoveFromCart = async (productId) => {
+           const {cart} =await commerce.cart.remove(productId);
+           setCart(cart);
+         }
+
+         const handleEmptyCart =async ()=>{
+           const {cart} =await commerce.cart.empty();
+           setCart(cart);
+         }
+
+    useEffect(() =>{
+      fetchProducts();
+      fetchCart();
+    },[]);
+    console.log(cart);
 
     return (
+      <Router>
         <div>
           <Navbar totalItems={cart.total_items} />
-          {/* <Products products={products} onAddToCart={handleAddToCart}  /> */}
-          <Cart cart={Cart} />
-        </div>
+          <Switch >
+            <Route exact path="/" >
+              <Products products={products} onAddToCart={handleAddToCart}  />
+            </Route>
+            <Route exact path="/cart"  >
+                  <Cart cart={Cart}
+                  handleUpdateCartQty={handleUpdateCartQty}
+                  handleRemoveFromCart={handleRemoveFromCart}
+                  handleEmptyCart={handleEmptyCart}
+                  
+                  
+                  
+                  />
+            </Route>
+          </Switch>
+        </div> 
+        </Router>
     ) 
 }
 
