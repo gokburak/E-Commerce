@@ -4,10 +4,7 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Typography,
-  CircularProgress,
-  Divider,
-  Button,
+  Typography
 } from "@material-ui/core";
 import useStyles from "./styles";
 import AddressForm from "../AddressForm";
